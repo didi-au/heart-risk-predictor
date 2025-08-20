@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Patient Details</title>
+  <style>
+    :root{
+      --bg:#0f172a;
+      --card:#111827;
+      --muted:#94a3b8;
+      --text:#e5e7eb;
+      --accent:#22d3ee;
+      --accent-2:#1e293b;
+      --ring:#38bdf8;
+      --ok:#10b981;
+      --warn:#f59e0b;
+      --err:#ef4444;
+      --shadow: 0 10px 25px rgba(2,8,23,.55);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell, Noto Sans, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 700px at 20% 0%, #0b1222 0%, #060a14 40%, #02060f 100%), var(--bg);
+      color:var(--text);
+      line-height:1.5;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+    .shell{
+      width:min(960px, 100%);
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:28px;
+      align-items:stretch;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid rgba(148,163,184,.18);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      border-radius:inherit;
+      box-shadow: inset 0 0 0 1px rgba(34,211,238,.06);
+    }
+    .header{
+      padding:28px 28px 10px;
+      border-bottom:1px solid rgba(148,163,184,.12);
+      background:
+        radial-gradient(700px 160px at -10% -40%, rgba(34,211,238,.15), transparent 60%) ,
+        radial-gradient(700px 160px at 120% -40%, rgba(16,185,129,.12), transparent 60%);
+    }
+    h1{
+      margin:0;
+      font-size: clamp(22px, 3vw, 30px);
+      letter-spacing:.2px;
+    }
+    .sub{
+      margin-top:6px;
+      font-size:14px;
+      color:var(--muted);
+    }
+    form{
+      padding:26px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px 20px;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    label{
+      font-size:13px;
+      color:#cbd5e1;
+      letter-spacing:.2px;
+    }
+    .input{
+      padding:12px 14px;
+      border-radius:12px;
+      background:#0b1222;
+      color:var(--text);
+      outline:none;
+      border:1px solid rgba(148,163,184,.22);
+      transition:border-color .2s, box-shadow .2s, transform .08s ease;
+    }
+    .input:focus{
+      border-color:var(--ring);
+      box-shadow:0 0 0 4px rgba(56,189,248,.12);
+    }
+    .input::placeholder{color:#64748b}
+    .full{grid-column:1 / -1}
+    .hint{
+      font-size:12px;
+      color:#93c5fd;
+      opacity:.9;
+    }
+    .actions{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:8px 26px 26px;
+    }
+    .btn{
+      appearance:none;
+      border:0;
+      border-radius:12px;
+      padding:12px 18px;
+      font-weight:600;
+      color:#0b1222;
+      background:linear-gradient(180deg, #67e8f9, #22d3ee);
+      cursor:pointer;
+      transition:transform .08s ease, filter .2s ease;
+    }
+    .btn:hover{filter:saturate(1.1) brightness(1.02)}
+    .btn:active{transform:translateY(1px)}
+    .ghost{
+      background:transparent;
+      color:var(--text);
+      border:1px solid rgba(148,163,184,.25);
+      backdrop-filter: blur(4px);
+    }
+    .aside{
+      padding:20px 20px 24px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px dashed rgba(34,211,238,.35);
+      background:rgba(2,8,23,.5);
+      color:#a5f3fc;
+      width:max-content;
+      font-size:12px;
+      letter-spacing:.3px;
+    }
+    .list{
+      display:grid;
+      gap:12px;
+      margin-top:6px;
+    }
+    .li{
+      display:flex;
+      gap:10px;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(148,163,184,.16);
+      background:rgba(2,8,23,.4);
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;margin-top:6px;
+      background:conic-gradient(var(--accent) 0 70%, rgba(34,211,238,.3) 0);
+      box-shadow:0 0 0 3px rgba(34,211,238,.15);
+      flex:0 0 auto;
+    }
+    .li h4{margin:0;font-size:14px}
+    .li p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+    footer{
+      font-size:12px;color:var(--muted);padding:0 26px 22px;
+    }
+    @media (max-width: 820px){
+      .shell{grid-template-columns:1fr}
+      form{grid-template-columns:1fr}
+      .actions{padding:4px 26px 22px}
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="card">
+      <div class="header">
+        <h1>Heart Disease Risk Level Predictor</h1>
+        <p class="sub">Please fill this form with your correct and true details.</p>
+      </div>
+      <form action="http://127.0.0.1:5000/getresults" method="POST">
+        <!-- NOTE: names, action, and method preserved exactly -->
+        <div class="field">
+          <label for="name">Name</label>
+          <input class="input" id="name" type="text" name="name" placeholder="e.g., Alex Smith" />
+          <span class="hint">Enter your full name.</span>
+        </div>
+
+        <div class="field">
+          <label for="gender">Gender (0-female, 1-male)</label>
+          <input class="input" id="gender" type="text" name="gender" placeholder="0 or 1" />
+        </div>
+
+        <div class="field">
+          <label for="age">Age</label>
+          <input class="input" id="age" type="text" name="age" placeholder="e.g., 45" />
+        </div>
+
+        <div class="field">
+          <label for="tc">TC (mg/dL)</label>
+          <input class="input" id="tc" type="text" name="tc" placeholder="e.g., 200" />
+        </div>
+
+        <div class="field">
+          <label for="hdl">HDL (mg/dL)</label>
+          <input class="input" id="hdl" type="text" name="hdl" placeholder="e.g., 45" />
+        </div>
+
+        <div class="field">
+          <label for="smoke">Smoke (1-yes, 0-no)</label>
+          <input class="input" id="smoke" type="text" name="smoke" placeholder="1 or 0" />
+        </div>
+
+        <div class="field">
+          <label for="bpm">Blood Pressure Medication (0-no, 1-yes)</label>
+          <input class="input" id="bpm" type="text" name="bpm" placeholder="0 or 1" />
+        </div>
+
+        <div class="field">
+          <label for="diab">Diabetics (1-yes, 0-no)</label>
+          <input class="input" id="diab" type="text" name="diab" placeholder="1 or 0" />
+        </div>
+
+        <div class="actions full">
+          <input class="btn" type="submit" value="Submit Details" />
+          <button type="reset" class="btn ghost">Reset</button>
+        </div>
+      </form>
+     
+    </div>
+
+    <aside class="card aside">
+      <span class="pill">Quick guide</span>
+      <div class="list">
+        <div class="li">
+          <div class="dot"></div>
+          <div>
+            <h4>Keep inputs numeric</h4>
+            <p>Gender: 0=female, 1=male. BP Meds: 0=no, 1=yes. Other fields: 0/1 as noted.</p>
+          </div>
+        </div>
+        <div class="li">
+          <div class="dot" style="background:conic-gradient(var(--ok) 0 70%, rgba(16,185,129,.3) 0)"></div>
+          <div>
+            <h4>Privacy</h4>
+            <p>Your details are submitted securely to your local server.</p>
+          </div>
+        </div>
+        <div class="li">
+          <div class="dot" style="background:conic-gradient(var(--warn) 0 70%, rgba(245,158,11,.3) 0)"></div>
+          <div>
+            <h4>Accuracy</h4>
+            <p>Enter true values to receive a more reliable risk estimate.</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</body>
+</html>
